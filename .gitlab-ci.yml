@@ -1,7 +1,12 @@
 stages:
-  - test
+  - check
 
-hello_job:
-  stage: test
+check_readme:
+  stage: check
   script:
-    - echo "Hello from CI"
+    - echo "Sprawdzam, czy README.md istnieje..."
+    - test -f README.md || (echo "Brak README.md!" && exit 1)
+    - echo "Plik istnieje. Oto jego pierwsze 5 linijek:"
+    - head -n 5 README.md
+  only:
+    - main
