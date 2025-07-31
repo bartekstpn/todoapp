@@ -1,12 +1,14 @@
 stages:
   - check
 
-check_readme:
+block_test_word:
   stage: check
   script:
-    - echo "Sprawdzam, czy README.md istnieje..."
-    - test -f README.md || (echo "Brak README.md!" && exit 1)
-    - echo "Plik istnieje. Oto jego pierwsze 5 linijek:"
-    - head -n 5 README.md
-  only:
-    - main
+    - echo "🔍 Sprawdzam index.html pod kątem słowa 'test'..."
+    - |
+      if grep -i 'test' index.html; then
+        echo "❌ Znaleziono słowo 'test' w index.html — commit zablokowany."
+        exit 1
+      else
+        echo "✅ index.html jest czysty — brak słowa 'test'."
+      fi
